@@ -87,26 +87,28 @@ public class locatorsExtractor {
 
                 XPath xPath = XPathFactory.newInstance().newXPath();
                 Node node = (Node) xPath.evaluate("/WebElementEntity/selectorMethod", dDoc, XPathConstants.NODE);
-                String nodeLocator = node.getTextContent();
-                var node1 = (NodeList) xPath.evaluate("/WebElementEntity/selectorCollection/entry", dDoc, XPathConstants.NODESET);
+                if (node != null) {
+                    String nodeLocator = node.getTextContent();
+                    var node1 = (NodeList) xPath.evaluate("/WebElementEntity/selectorCollection/entry", dDoc, XPathConstants.NODESET);
 
-                for (int i = 0; i < node1.getLength(); i++) {
-                    String temp = node1.item(i).getTextContent();
-                    if (temp.contains(nodeLocator)) {
-                        //System.out.println(temp);
-                        temp = temp.replace(nodeLocator + "\n", "");
-                        category.append("|").append(nodeLocator).append("|");
-                        temp = temp.replace("\n", "");
-                        if (temp.contains("${")) {
-                            category.append("Dynamic|");
-                        } else {
-                            category.append("Static|");
+                    for (int i = 0; i < node1.getLength(); i++) {
+                        String temp = node1.item(i).getTextContent();
+                        if (temp.contains(nodeLocator)) {
+                            //System.out.println(temp);
+                            temp = temp.replace(nodeLocator + "\n", "");
+                            category.append("|").append(nodeLocator).append("|");
+                            temp = temp.replace("\n", "");
+                            if (temp.contains("${")) {
+                                category.append("Dynamic|");
+                            } else {
+                                category.append("Static|");
+                            }
+                            category.append("`").append(temp).append("`|");
                         }
-                        category.append("`").append(temp).append("`|");
-                    }
 
+                    }
+                    finalOutput += category;
                 }
-                finalOutput += category;
             } catch (Exception e) {
                 e.printStackTrace();
             }
