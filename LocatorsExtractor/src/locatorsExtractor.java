@@ -67,9 +67,9 @@ public class locatorsExtractor {
                                 newCategory.append("#");
                             }
 
-                            category.append(newCategory).append(" ").append(checkList[i]);
+                            newCategory.append(" ").append(checkList[i]);
                             isNewCategory = true;
-
+                            finalOutput += newCategory;
                         }
 
                     }
